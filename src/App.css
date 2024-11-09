@@ -1,0 +1,247 @@
+/* Global Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.view-graph-btn {
+    background: linear-gradient(135deg, #00bcd4, #8e24aa);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    padding: 14px;
+    margin-top: 20px;
+    font-size: 1.2rem;
+    border-radius: 10px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.view-graph-btn:hover {
+    background: linear-gradient(135deg, #8e24aa, #00bcd4);
+    transform: scale(1.05);
+}
+
+/* Graph Section */
+.graph-section {
+    margin-top: 40px;
+    width: 100%;
+    height: 400px; /* Adjust size as per your design */
+}
+
+
+/* Body Styling with Local Background Image */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-image: url('./assets/background.jpg.jpg'); /* Local image */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    min-height: 100vh; /* Ensure the body takes full viewport height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    color: #333;
+    background-repeat: no-repeat;
+    background-color: #f0f0f0; /* Light background color for fallback */
+}
+
+/* Main App Container */
+.App {
+    background: rgba(255, 255, 255, 0.9); /* Transparent white background for content */
+    width: 100%;
+    max-width: 1200px;
+    border-radius: 15px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    transition: transform 0.3s ease-in-out;
+    min-height: 80vh; /* Adjust this based on your content */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.App:hover {
+    transform: translateY(-5px);
+}
+
+/* Header */
+h1 {
+    text-align: center;
+    color: #2c3e50;
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Add Expense Form */
+.expense-form {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+/* Add Expense Inputs Section */
+.expense-form input,
+.expense-form select {
+    padding: 14px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 1.1rem;
+    background-color: #f8f8f8;
+    color: #333;
+    transition: all 0.3s ease;
+}
+
+.expense-form input:focus,
+.expense-form select:focus {
+    outline: none;
+    border-color: #6a11cb;
+    background-color: #fff;
+}
+
+.expense-form button {
+    background: linear-gradient(135deg, #ff6a00, #ee0979);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    padding: 14px;
+    margin-top: 5%;
+    font-size: 1.2rem;
+    border-radius: 10px;
+    width: 100%;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.expense-form button:hover {
+    background: linear-gradient(135deg, #ee0979, #ff6a00);
+    transform: scale(1.05);
+}
+
+/* Filter Section */
+.filter {
+    display: flex;
+    justify-content: flex-start;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.filter select {
+    padding: 14px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 1.1rem;
+    background-color: #fff;
+    width: 30%;
+    transition: all 0.3s ease;
+}
+
+.filter select:focus {
+    outline: none;
+    border-color: #6a11cb;
+}
+
+.filter span {
+    font-size: 1.1rem;
+    color: #555;
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+}
+
+/* Expense List */
+.expense-list {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+/* Each Expense Item */
+.expense-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    min-height: 100px;
+    width: 100%; /* Ensure the item takes full available width */
+    box-sizing: border-box; /* Ensures padding does not affect width */
+}
+
+/* Align the amount vertically and horizontally */
+.expense-item .amount {
+    font-weight: bold;
+    font-size: 1.4rem;
+    color: #2c3e50;
+    display: flex;
+    justify-content: flex-end; /* Ensure the amount is aligned to the right */
+    align-items: center; /* Center the amount vertically */
+    width: 20%; /* Ensure the amount takes up a consistent portion of the width */
+    padding-left: 10px; /* Optional padding for spacing */
+    text-align: right; /* Align text to the right within the amount box */
+}
+
+/* Delete Button */
+.delete-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #e74c3c;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.delete-btn:hover {
+    background-color: #c0392b;
+    transform: scale(1.05);
+}
+
+/* Empty State */
+.no-expenses {
+    text-align: center;
+    font-style: italic;
+    color: #7f8c8d;
+    font-size: 1.3rem;
+}
+
+/* Responsive Layout for smaller screens */
+@media (max-width: 768px) {
+    .App {
+        padding: 20px;
+        min-height: auto; /* Allow content to take height as needed */
+    }
+
+    .expense-form {
+        grid-template-columns: 1fr;
+    }
+
+    .filter {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .filter select {
+        width: 100%;
+    }
+
+    /* Align amount to left on smaller screens */
+    .expense-item .amount {
+        width: auto; /* Let the amount container take necessary space */
+        text-align: left; /* Optional change to left alignment on small screens */
+    }
+}
