@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import { Line } from 'react-chartjs-2'; // Import Line chart from Chart.js
+import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 
-// Register the chart components
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-// Sample expenses data (now includes categories)
 const sampleExpenses = [
   { id: 1, name: 'Groceries', amount: 50, category: 'Food' },
   { id: 2, name: 'Gas', amount: 30, category: 'Transport' },
@@ -16,39 +14,33 @@ const sampleExpenses = [
 ];
 
 function App() {
-  // Load data from localStorage (if available) or use sample data
   const savedExpenses = JSON.parse(localStorage.getItem('expenses')) || sampleExpenses;
   const savedFilter = localStorage.getItem('filter') || 'All';
 
   const [expenses, setExpenses] = useState(savedExpenses);
   const [newExpense, setNewExpense] = useState({ name: '', amount: '', category: '' });
   const [filter, setFilter] = useState(savedFilter);
-  const [showGraph, setShowGraph] = useState(false); // To toggle graph visibility
+  const [showGraph, setShowGraph] = useState(false);
 
-  // Save expenses and filter to localStorage whenever they change
   useEffect(() => {
-    localStorage.setItem('expenses', JSON.stringify(expenses)); // Save expenses
-    localStorage.setItem('filter', filter); // Save filter
+    localStorage.setItem('expenses', JSON.stringify(expenses)); 
+    localStorage.setItem('filter', filter); 
   }, [expenses, filter]);
 
-  // Add new expense
   const handleAddExpense = () => {
-    if (!newExpense.name || !newExpense.amount || !newExpense.category) return; // Don't add if no name, amount or category
-    const newExpenseWithId = { ...newExpense, id: expenses.length + 1 }; // Create new expense with unique ID
-    setExpenses([...expenses, newExpenseWithId]); // Add to expenses array
-    setNewExpense({ name: '', amount: '', category: '' }); // Clear input fields after adding
+    if (!newExpense.name || !newExpense.amount || !newExpense.category) return;
+    const newExpenseWithId = { ...newExpense, id: expenses.length + 1 }; 
+    setExpenses([...expenses, newExpenseWithId]);
+    setNewExpense({ name: '', amount: '', category: '' }); 
   };
 
-  // Delete an expense
   const handleDeleteExpense = (id) => {
-    const updatedExpenses = expenses.filter(expense => expense.id !== id); // Remove the expense with the given id
-    setExpenses(updatedExpenses); // Update the state with the new list of expenses
+    const updatedExpenses = expenses.filter(expense => expense.id !== id); 
+    setExpenses(updatedExpenses);
   };
 
-  // Filter expenses by name and category
   const filteredExpenses = filter === 'All' ? expenses : expenses.filter(expense => expense.category === filter);
 
-  // Prepare data for the chart
   const chartData = {
     labels: filteredExpenses.map(expense => expense.name),
     datasets: [
@@ -67,7 +59,6 @@ function App() {
     <div className="App">
       <h1>Budget Splitter</h1>
 
-      {/* Add Expense Form */}
       <div className="expense-form">
         <input
           type="text"
@@ -94,7 +85,6 @@ function App() {
         <button onClick={handleAddExpense}>Add Expense</button>
       </div>
 
-      {/* Filter Section */}
       <div className="filter">
         <select value={filter} onChange={(e) => setFilter(e.target.value)}>
           <option value="All">All</option>
@@ -103,11 +93,9 @@ function App() {
           <option value="Bills">Bills</option>
           <option value="Entertainment">Entertainment</option>
         </select>
-        {/* Add a span to show the selected filter */}
         <span className="selected-filter">Selected Filter: {filter}</span>
       </div>
 
-      {/* Expense List */}
       <div className="expense-list">
         {filteredExpenses.length > 0 ? (
           filteredExpenses.map((expense) => (
@@ -122,12 +110,10 @@ function App() {
         )}
       </div>
 
-      {/* View Graph Button */}
       <button onClick={() => setShowGraph(!showGraph)} className="view-graph-btn">
         {showGraph ? 'Hide Graph' : 'View Graph'}
       </button>
 
-      {/* Graph Section */}
       {showGraph && (
         <div className="graph-section">
           <Line data={chartData} />

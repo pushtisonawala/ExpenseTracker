@@ -1,4 +1,4 @@
-/* Global Reset */
+
 * {
     margin: 0;
     padding: 0;
@@ -23,41 +23,40 @@
     transform: scale(1.05);
 }
 
-/* Graph Section */
 .graph-section {
     margin-top: 40px;
     width: 100%;
-    height: 400px; /* Adjust size as per your design */
+    height: 400px; 
 }
 
 
-/* Body Styling with Local Background Image */
+
 body {
     font-family: 'Poppins', sans-serif;
-    background-image: url('./assets/background.jpg.jpg'); /* Local image */
+    background-image: url('./assets/background.jpg.jpg'); 
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
-    min-height: 100vh; /* Ensure the body takes full viewport height */
+    min-height: 100vh; 
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 20px;
     color: #333;
     background-repeat: no-repeat;
-    background-color: #f0f0f0; /* Light background color for fallback */
+    background-color: #f0f0f0;
 }
 
-/* Main App Container */
+
 .App {
-    background: rgba(255, 255, 255, 0.9); /* Transparent white background for content */
+    background: rgba(255, 255, 255, 0.9); 
     width: 100%;
     max-width: 1200px;
     border-radius: 15px;
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
     padding: 40px;
     transition: transform 0.3s ease-in-out;
-    min-height: 80vh; /* Adjust this based on your content */
+    min-height: 80vh; 
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -67,7 +66,6 @@ body {
     transform: translateY(-5px);
 }
 
-/* Header */
 h1 {
     text-align: center;
     color: #2c3e50;
@@ -78,7 +76,6 @@ h1 {
     letter-spacing: 2px;
 }
 
-/* Add Expense Form */
 .expense-form {
     display: grid;
     grid-template-columns: 1fr;
@@ -86,7 +83,6 @@ h1 {
     margin-bottom: 40px;
 }
 
-/* Add Expense Inputs Section */
 .expense-form input,
 .expense-form select {
     padding: 14px;
@@ -123,8 +119,6 @@ h1 {
     background: linear-gradient(135deg, #ee0979, #ff6a00);
     transform: scale(1.05);
 }
-
-/* Filter Section */
 .filter {
     display: flex;
     justify-content: flex-start;
@@ -155,14 +149,12 @@ h1 {
     align-items: center;
 }
 
-/* Expense List */
 .expense-list {
     display: flex;
     flex-direction: column;
     gap: 25px;
 }
 
-/* Each Expense Item */
 .expense-item {
     display: flex;
     justify-content: space-between;
@@ -174,24 +166,20 @@ h1 {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     position: relative;
     min-height: 100px;
-    width: 100%; /* Ensure the item takes full available width */
-    box-sizing: border-box; /* Ensures padding does not affect width */
+    width: 100%;
+    box-sizing: border-box;
 }
-
-/* Align the amount vertically and horizontally */
 .expense-item .amount {
     font-weight: bold;
     font-size: 1.4rem;
     color: #2c3e50;
     display: flex;
-    justify-content: flex-end; /* Ensure the amount is aligned to the right */
-    align-items: center; /* Center the amount vertically */
-    width: 20%; /* Ensure the amount takes up a consistent portion of the width */
-    padding-left: 10px; /* Optional padding for spacing */
-    text-align: right; /* Align text to the right within the amount box */
+    justify-content: flex-end; 
+    align-items: center; 
+    width: 20%; 
+    padding-left: 10px; 
+    text-align: right; 
 }
-
-/* Delete Button */
 .delete-btn {
     position: absolute;
     top: 10px;
@@ -210,20 +198,16 @@ h1 {
     background-color: #c0392b;
     transform: scale(1.05);
 }
-
-/* Empty State */
 .no-expenses {
     text-align: center;
     font-style: italic;
     color: #7f8c8d;
     font-size: 1.3rem;
 }
-
-/* Responsive Layout for smaller screens */
 @media (max-width: 768px) {
     .App {
         padding: 20px;
-        min-height: auto; /* Allow content to take height as needed */
+        min-height: auto; 
     }
 
     .expense-form {
@@ -239,9 +223,9 @@ h1 {
         width: 100%;
     }
 
-    /* Align amount to left on smaller screens */
+   
     .expense-item .amount {
-        width: auto; /* Let the amount container take necessary space */
-        text-align: left; /* Optional change to left alignment on small screens */
+        width: auto; 
+        text-align: left; 
     }
 }

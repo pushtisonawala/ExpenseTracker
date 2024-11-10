@@ -18,7 +18,6 @@ const db = getFirestore(app);
 
 const expensesCollection = collection(db, "expenses");
 
-// Function to add expense to Firestore
 export const addExpense = async (expense) => {
   try {
     await addDoc(expensesCollection, expense);
@@ -28,7 +27,6 @@ export const addExpense = async (expense) => {
   }
 };
 
-// Function to get expenses from Firestore
 export const getExpenses = async () => {
   try {
     const snapshot = await getDocs(expensesCollection);
