@@ -1,125 +1,100 @@
-import React, { useState, useEffect } from 'react';
-import './App.css';
-import { Line } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
-
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
-
-const sampleExpenses = [
-  { id: 1, name: 'Groceries', amount: 50, category: 'Food' },
-  { id: 2, name: 'Gas', amount: 30, category: 'Transport' },
-  { id: 3, name: 'Dinner', amount: 70, category: 'Food' },
-  { id: 4, name: 'Electricity', amount: 120, category: 'Bills' },
-  { id: 5, name: 'Movie Tickets', amount: 25, category: 'Entertainment' },
-];
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import Navbar from './components/Navbar/Navbar';
+import Dashboard from './components/Dashboard/Dashboard';
+import ExpenseTracker from './components/ExpenseTracker/ExpenseTracker';
+import BudgetPlanner from './components/BudgetPlanner/BudgetPlanner';
+import SavingsGoals from './components/Goals/SavingsGoals';
+import Reports from './components/Reports/Reports';
+import Login from './components/Auth/Login';
+import SignUp from './components/Auth/SignUp';
 
 function App() {
-  const savedExpenses = JSON.parse(localStorage.getItem('expenses')) || sampleExpenses;
-  const savedFilter = localStorage.getItem('filter') || 'All';
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    localStorage.getItem('isAuthenticated') === 'true'
+  );
 
-  const [expenses, setExpenses] = useState(savedExpenses);
-  const [newExpense, setNewExpense] = useState({ name: '', amount: '', category: '' });
-  const [filter, setFilter] = useState(savedFilter);
-  const [showGraph, setShowGraph] = useState(false);
-
-  useEffect(() => {
-    localStorage.setItem('expenses', JSON.stringify(expenses)); 
-    localStorage.setItem('filter', filter); 
-  }, [expenses, filter]);
-
-  const handleAddExpense = () => {
-    if (!newExpense.name || !newExpense.amount || !newExpense.category) return;
-    const newExpenseWithId = { ...newExpense, id: expenses.length + 1 }; 
-    setExpenses([...expenses, newExpenseWithId]);
-    setNewExpense({ name: '', amount: '', category: '' }); 
+  const handleLogin = (credentials) => {
+    if (credentials.email && credentials.password) {
+      localStorage.setItem('isAuthenticated', 'true');
+      setIsAuthenticated(true);
+    }
   };
 
-  const handleDeleteExpense = (id) => {
-    const updatedExpenses = expenses.filter(expense => expense.id !== id); 
-    setExpenses(updatedExpenses);
-  };
-
-  const filteredExpenses = filter === 'All' ? expenses : expenses.filter(expense => expense.category === filter);
-
-  const chartData = {
-    labels: filteredExpenses.map(expense => expense.name),
-    datasets: [
-      {
-        label: 'Amount Spent',
-        data: filteredExpenses.map(expense => expense.amount),
-        fill: false,
-        backgroundColor: 'rgba(75, 192, 192, 1)',
-        borderColor: 'rgba(75, 192, 192, 0.2)',
-        borderWidth: 1,
-      },
-    ],
+  const handleLogout = () => {
+    localStorage.removeItem('isAuthenticated');
+    setIsAuthenticated(false);
   };
 
   return (
-    <div className="App">
-      <h1>Budget Splitter</h1>
+    <Router>
+      <div className="min-vh-100 d-flex flex-column">
+        <Navbar isAuthenticated={isAuthenticated} onLogout={handleLogout} />
+        
+        <main className="flex-grow-1 bg-light py-4">
+          <div className="container">
+            <Routes>
+              <Route path="/login" element={
+                !isAuthenticated ? (
+                  <Login onLogin={handleLogin} />
+                ) : (
+                  <Navigate to="/dashboard" />
+                )
+              } />
+              <Route path="/signup" element={
+                !isAuthenticated ? (
+                  <SignUp onLogin={handleLogin} />
+                ) : (
+                  <Navigate to="/dashboard" />
+                )
+              } />
+              <Route path="/dashboard" element={
+                isAuthenticated ? (
+                  <Dashboard />
+                ) : (
+                  <Navigate to="/login" />
+                )
+              } />
+              <Route path="/expenses" element={
+                isAuthenticated ? (
+                  <ExpenseTracker />
+                ) : (
+                  <Navigate to="/login" />
+                )
+              } />
+              <Route path="/budgets" element={
+                isAuthenticated ? (
+                  <BudgetPlanner />
+                ) : (
+                  <Navigate to="/login" />
+                )
+              } />
+              <Route path="/goals" element={
+                isAuthenticated ? (
+                  <SavingsGoals />
+                ) : (
+                  <Navigate to="/login" />
+                )
+              } />
+              <Route path="/reports" element={
+                isAuthenticated ? (
+                  <Reports />
+                ) : (
+                  <Navigate to="/login" />
+                )
+              } />
+              <Route path="/" element={<Navigate to="/dashboard" />} />
+            </Routes>
+          </div>
+        </main>
 
-      <div className="expense-form">
-        <input
-          type="text"
-          placeholder="Expense Name"
-          value={newExpense.name}
-          onChange={(e) => setNewExpense({ ...newExpense, name: e.target.value })}
-        />
-        <input
-          type="number"
-          placeholder="Amount"
-          value={newExpense.amount}
-          onChange={(e) => setNewExpense({ ...newExpense, amount: e.target.value })}
-        />
-        <select
-          value={newExpense.category}
-          onChange={(e) => setNewExpense({ ...newExpense, category: e.target.value })}
-        >
-          <option value="">Select Category</option>
-          <option value="Food">Food</option>
-          <option value="Transport">Transport</option>
-          <option value="Bills">Bills</option>
-          <option value="Entertainment">Entertainment</option>
-        </select>
-        <button onClick={handleAddExpense}>Add Expense</button>
+        <footer className="bg-dark text-light py-4">
+          <div className="container text-center">
+            <p className="mb-0">© 2024 FinanceTracker. All rights reserved.</p>
+          </div>
+        </footer>
       </div>
-
-      <div className="filter">
-        <select value={filter} onChange={(e) => setFilter(e.target.value)}>
-          <option value="All">All</option>
-          <option value="Food">Food</option>
-          <option value="Transport">Transport</option>
-          <option value="Bills">Bills</option>
-          <option value="Entertainment">Entertainment</option>
-        </select>
-        <span className="selected-filter">Selected Filter: {filter}</span>
-      </div>
-
-      <div className="expense-list">
-        {filteredExpenses.length > 0 ? (
-          filteredExpenses.map((expense) => (
-            <div key={expense.id} className="expense-item">
-              <p>{expense.name} </p>
-              <span>₹ {expense.amount}</span>
-              <button onClick={() => handleDeleteExpense(expense.id)}>Delete</button>
-            </div>
-          ))
-        ) : (
-          <p className="no-expenses">No expenses found.</p>
-        )}
-      </div>
-
-      <button onClick={() => setShowGraph(!showGraph)} className="view-graph-btn">
-        {showGraph ? 'Hide Graph' : 'View Graph'}
-      </button>
-
-      {showGraph && (
-        <div className="graph-section">
-          <Line data={chartData} />
-        </div>
-      )}
-    </div>
+    </Router>
   );
 }
 
